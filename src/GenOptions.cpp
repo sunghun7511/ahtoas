@@ -1,39 +1,27 @@
 #include "GenOptions.hpp"
 
-// bool debug_mode;
-
-// bool input_from_file;
-// std::string input_file;
-
-// bool do_output_to_file;
-// std::string output_file;
-
-// std::string source;
-
 GenOptions::GenOptions()
     : debug_mode(false), 
     input_from_file(false),
-    input_file(nullptr),
-    out_to_file(false),
-    output_file(nullptr),
-    source(nullptr){
+    out_to_file(false){
 }
+
 GenOptions::~GenOptions(){
 }
 
-void GenOptions::set_debug_mode(const bool flag){
+const void GenOptions::set_debug_mode(const bool flag){
     this->debug_mode = flag;
 }
-void GenOptions::set_input_file(const std::string input_file){
+const void GenOptions::set_input_file(const std::string input_file){
     this->input_from_file = true;
     this->input_file = input_file;
 }
-void GenOptions::set_output_file(const std::string output_file){
+const void GenOptions::set_output_file(const std::string output_file){
     this->out_to_file = true;
     this->output_file = output_file;
 }
 
-void GenOptions::set_source(const std::string source){
+const void GenOptions::set_source(const std::string source){
     this->source = source;
 }
 
@@ -58,5 +46,5 @@ const std::string GenOptions::get_output_file(){
 }
 
 const std::string GenOptions::get_source(){
-    return this->get_source;
+    return this->source;
 }

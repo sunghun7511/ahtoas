@@ -18,12 +18,12 @@ public:
     GenOptions();
     ~GenOptions();
 
-    void set_debug_mode(const bool flag);
+    const void set_debug_mode(const bool flag);
 
-    void set_input_file(const std::string input_file);
-    void set_output_file(const std::string output_file);
+    const void set_input_file(const std::string input_file);
+    const void set_output_file(const std::string output_file);
 
-    void set_source(const std::string source);
+    const void set_source(const std::string source);
 
     const bool is_debug_mode();
     

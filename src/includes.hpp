@@ -7,7 +7,9 @@
 #include <iomanip>
 #include <iostream>
 
-#include <memory>
+#include <queue>
+
+#include <tr1/memory>
 #include <fstream>
 
 void inline error_exit(const char *str){
