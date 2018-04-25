@@ -2,3 +2,5 @@
 ahtoas.kdev4
 .kdev4/
 ahtoas
+.gdb_history
+peda-session-ahtoas.txt
