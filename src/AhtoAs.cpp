@@ -31,34 +31,36 @@ int main(int argc, char * argv[]){
 
 const void parse_options(const vector<string>& args, GenOptions& options){
     if(args.size() > 1){
-        for(auto arg = args.begin(); arg != args.end(); ++arg){
-            if(arg->compare("--help")){
+        for(auto arg = args.begin()+1; arg != args.end(); ++arg){
+            if(!arg->compare("--help")){
                 help(args[0]);
-            }else if(arg->compare("--input")
-                        || arg->compare("-i")){
-                options.set_input_file(*(++arg));
-                std::cout << "input!\n";
-            }else if(arg->compare("--output")
-                        || arg->compare("-o")){
-                options.set_output_file(*(++arg));
-                std::cout << "output!\n";
-            }else if(arg->compare("--code")
-                        || arg->compare("-c")){
-                options.set_source(*(++arg));
-                std::cout << "Code!\n";
-            }else if(arg->compare("--debug")
-                        || arg->compare("-d")){
+            }else if(!arg->compare("--input")
+                        || !arg->compare("-i")){
+                if(++arg == args.end())
+                    error_exit("Invaild arguments..");
+                options.set_input_file(*arg);
+            }else if(!arg->compare("--output")
+                        || !arg->compare("-o")){
+                if(++arg == args.end())
+                    error_exit("Invaild arguments..");
+                options.set_output_file(*arg);
+            }else if(!arg->compare("--code")
+                        || !arg->compare("-c")){
+                if(++arg == args.end())
+                    error_exit("Invaild arguments..");
+                options.set_source(*arg);
+            }else if(!arg->compare("--debug")
+                        || !arg->compare("-d")){
                 options.set_debug_mode(true);
-                std::cout << "Debug!\n";
             }
         }
     }else{
         usage(args[0]);
     }
-    
-    if(!options.has_input_file() && options.get_source()->empty()){
+
+    if(!options.has_input_file() && !options.get_source()){
         error_exit("No input to compile.");
-    }else if(options.has_input_file() && !options.get_source()->empty()){
+    }else if(options.has_input_file() && options.get_source()){
         error_exit("Please input just one source.");
     }
 
