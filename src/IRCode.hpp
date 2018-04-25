@@ -10,7 +10,7 @@ enum CodeType{
 
 class IRCode {
 private:
-    std::tr1::shared_ptr<std::queue<CodeType>> queue;
+    ptr<queue<CodeType>> irs;
 public:
     IRCode();
     ~IRCode();
@@ -21,6 +21,6 @@ public:
     const CodeType get_first_code();
 };
 
-const void print_ir(const std::tr1::shared_ptr<IRCode> ir);
+const void print_ir(const ptr<IRCode> ir);
 
 #endif

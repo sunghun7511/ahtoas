@@ -6,16 +6,16 @@
 
 class Parser {
 private:
-    std::tr1::shared_ptr<GenOptions> opt;
-    std::tr1::shared_ptr<IRCode> ir;
+    GenOptions* opt;
+    ptr<IRCode> ir;
 public:
-    Parser(const std::tr1::shared_ptr<GenOptions> opt);
+    Parser(GenOptions* const opt);
     ~Parser();
 
-    const void change_gen_options(const std::tr1::shared_ptr<GenOptions> opt);
+    const void change_gen_options(GenOptions* const opt);
 
     const void start_parse();
-    const std::tr1::shared_ptr<IRCode> get_ir_code();
+    const ptr<IRCode> get_ir_code();
 private:
     // private methods.
 };

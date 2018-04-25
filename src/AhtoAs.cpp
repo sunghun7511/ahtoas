@@ -1,53 +1,91 @@
 #include "AhtoAs.hpp"
 
 int main(int argc, char * argv[]){
-    
-    std::tr1::shared_ptr<GenOptions> opt(new GenOptions());
 
-    if(!opt){
-        error_exit("Allocate error on GenOptions");
+    vector<string> args(argv, argv + argc);
+    GenOptions opt;
+
+    parse_options(args, opt);
+
+    Parser parser(&opt);
+    parser.start_parse();
+
+    if(opt.is_debug_mode()){
+        print_ir(parser.get_ir_code());
     }
 
-    parse_options(argc, argv, opt);
+    CodeGenerator code_gen(parser.get_ir_code());
 
-    std::tr1::shared_ptr<Parser> parser(new Parser(opt));
-    parser->start_parse();
-
-    if(opt->is_debug_mode()){
-        print_ir(parser->get_ir_code());
-    }
-
-    std::tr1::shared_ptr<CodeGenerator> code_gen(new CodeGenerator(parser->get_ir_code()));
-
-    if(opt->is_out_to_file()){
+    if(opt.is_out_to_file()){
         std::ofstream file;
 
-        file.open(opt->get_output_file());
+        file.open(opt.get_output_file()->c_str());
 
-        code_gen->generate_code(file);
+        code_gen.generate_code(file);
     }else{
-        code_gen->generate_code(std::cout);
+        code_gen.generate_code(std::cout);
     }
 
     return 0;
 }
 
-const void parse_options(const int argc, const char * const argv[], const std::tr1::shared_ptr<GenOptions> options){
-    if(argc > 1){
-        
+const void parse_options(const vector<string>& args, GenOptions& options){
+    if(args.size() > 1){
+        for(auto arg = args.begin(); arg != args.end(); ++arg){
+            if(arg->compare("--help")){
+                help(args[0]);
+            }else if(arg->compare("--input")
+                        || arg->compare("-i")){
+                options.set_input_file(*(++arg));
+                std::cout << "input!\n";
+            }else if(arg->compare("--output")
+                        || arg->compare("-o")){
+                options.set_output_file(*(++arg));
+                std::cout << "output!\n";
+            }else if(arg->compare("--code")
+                        || arg->compare("-c")){
+                options.set_source(*(++arg));
+                std::cout << "Code!\n";
+            }else if(arg->compare("--debug")
+                        || arg->compare("-d")){
+                options.set_debug_mode(true);
+                std::cout << "Debug!\n";
+            }
+        }
     }else{
-        usage(argv[0]);
+        usage(args[0]);
     }
     
-    if(!options->has_input_file() && !options->get_source().empty()){
+    if(!options.has_input_file() && options.get_source()->empty()){
         error_exit("No input to compile.");
-    }else if(options->has_input_file() && options->get_source().empty()){
+    }else if(options.has_input_file() && !options.get_source()->empty()){
         error_exit("Please input just one source.");
     }
+
+    if(options.is_debug_mode()){
+        if(options.has_input_file()){
+            std::cout << "Input file : " << options.get_input_file() << "\n";
+        }else{
+            std::cout << "No input file\n";
+        }
+        
+        if(options.is_out_to_file()){
+            std::cout << "Output file : " << options.get_output_file() << "\n";
+        }else{
+            std::cout << "No input file\n";
+        }
+        
+        if(!options.get_source()->empty()){
+            std::cout << "Source code : " << options.get_source() << "\n";
+        }else{
+            std::cout << "No code\n";
+        }
+    }
+    
     return;
 }
 
-const void usage(const char * const cmdline){
+const void usage(const string& cmdline){
     std::cout
         << "Usage : " << "\n"
         << "        " << cmdline << " [-s source_file] [Options]\n"
@@ -56,7 +94,7 @@ const void usage(const char * const cmdline){
     std::exit(EXIT_SUCCESS);
 }
 
-const void help(const char * const cmdline){
+const void help(const string& cmdline){
     std::cout
         << "Usage : " << "\n"
         << "        " << cmdline << " [-s source_file] [Options]\n"
@@ -69,6 +107,7 @@ const void help(const char * const cmdline){
         << " -i --input FILE        source input file\n"
         << " -o --output FILE       output file\n"
         << " -d --debug             debug mode\n"
+        << " -c --code              compile from string\n"
         << "\n"
         << "Developer : SHGroup(sunghun7511@naver.com)\n"
         << "Github : https://github.com/sunghun7511/ahtoas\n";

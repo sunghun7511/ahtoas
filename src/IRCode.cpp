@@ -1,7 +1,7 @@
 #include "IRCode.hpp"
 
 IRCode::IRCode()
-    : queue(new std::queue<CodeType>()){
+    : irs(new queue<CodeType>()){
     
 }
 
@@ -10,23 +10,23 @@ IRCode::~IRCode(){
 
 
 const bool IRCode::has_code(){
-    return !this->queue->empty();
+    return !this->irs->empty();
 }
 
 const CodeType IRCode::pop_first_code(){
-    CodeType type = this->queue->front();
-    this->queue->pop();
+    CodeType type = this->irs->front();
+    this->irs->pop();
     return type;
 }
 
 const CodeType IRCode::get_first_code(){
-    return this->queue->front();
+    return this->irs->front();
 }
 
 const void IRCode::push_code(const CodeType type){
-    this->queue->push(type);
+    this->irs->push(type);
 }
 
-const void print_ir(const std::tr1::shared_ptr<IRCode> ir){
+const void print_ir(const ptr<IRCode> ir){
     
 }

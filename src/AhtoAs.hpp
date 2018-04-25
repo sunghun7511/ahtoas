@@ -7,9 +7,9 @@
 #include "GenOptions.hpp"
 #include "CodeGeneration.hpp"
 
-const void usage(const char * const cmdline);
-const void help(const char * const cmdline);
+const void usage(const string& cmdline);
+const void help(const string& cmdline);
 
-const void parse_options(const int argc, const char * const argv[], const std::tr1::shared_ptr<GenOptions> options);
+const void parse_options(const vector<string>& args, GenOptions& options);
 
 #endif
