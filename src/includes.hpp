@@ -22,9 +22,18 @@ using std::string;
 using std::vector;
 using std::queue;
 
+using std::cout;
+
 using std::fstream;
+using std::ifstream;
+using std::ofstream;
 
 void inline error_exit(const char *str){
+    std::cerr << "\n[Error] " << str << "\n\n";
+    std::exit(EXIT_FAILURE);
+}
+
+void inline error_exit(const string str){
     std::cerr << "\n[Error] " << str << "\n\n";
     std::exit(EXIT_FAILURE);
 }

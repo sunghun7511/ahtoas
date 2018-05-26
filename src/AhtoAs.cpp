@@ -23,7 +23,7 @@ int main(int argc, char * argv[]){
 
         code_gen.generate_code(file);
     }else{
-        code_gen.generate_code(std::cout);
+        code_gen.generate_code(cout);
     }
 
     return 0;
@@ -58,29 +58,29 @@ const void parse_options(const vector<string>& args, GenOptions& options){
         usage(args[0]);
     }
 
-    if(!options.has_input_file() && !options.get_source()){
+    if(!options.has_input_file() && !options.has_source()){
         error_exit("No input to compile.");
-    }else if(options.has_input_file() && options.get_source()){
+    }else if(options.has_input_file() && options.has_source()){
         error_exit("Please input just one source.");
     }
 
     if(options.is_debug_mode()){
         if(options.has_input_file()){
-            std::cout << "Input file : " << options.get_input_file() << "\n";
+            cout << "Input file : " << *options.get_input_file() << "\n";
         }else{
-            std::cout << "No input file\n";
+            cout << "No input file\n";
         }
         
         if(options.is_out_to_file()){
-            std::cout << "Output file : " << options.get_output_file() << "\n";
+            cout << "Output file : " << *options.get_output_file() << "\n";
         }else{
-            std::cout << "No input file\n";
+            cout << "No output file\n";
         }
         
-        if(!options.get_source()->empty()){
-            std::cout << "Source code : " << options.get_source() << "\n";
+        if(options.has_source()){
+            cout << "Source code : " << *options.get_source() << "\n";
         }else{
-            std::cout << "No code\n";
+            cout << "No code\n";
         }
     }
     
@@ -88,18 +88,18 @@ const void parse_options(const vector<string>& args, GenOptions& options){
 }
 
 const void usage(const string& cmdline){
-    std::cout
+    cout
         << "Usage : " << "\n"
-        << "        " << cmdline << " [-s source_file] [Options]\n"
+        << "        " << cmdline << " [-i source_file] [Options]\n"
         << "        " << cmdline << " [-c source] [Options]\n"
         << "        " << cmdline << " [--help]\n";
     std::exit(EXIT_SUCCESS);
 }
 
 const void help(const string& cmdline){
-    std::cout
+    cout
         << "Usage : " << "\n"
-        << "        " << cmdline << " [-s source_file] [Options]\n"
+        << "        " << cmdline << " [-i source_file] [Options]\n"
         << "        " << cmdline << " [-c source] [Options]\n"
         << "        " << cmdline << " [--help]\n"
         << "\n"

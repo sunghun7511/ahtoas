@@ -13,6 +13,7 @@ private:
     bool out_to_file;
     const string* output_file;
 
+    bool use_source;
     const string* source;
 public:
     GenOptions();
@@ -33,6 +34,7 @@ public:
     const bool is_out_to_file();
     const string* const get_output_file();
 
+    const bool has_source();
     const string* const get_source();
 };
 
